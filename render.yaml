@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     region: frankfurt
-    buildCommand: npm install
+    buildCommand: npm install && npm run check
     startCommand: npm start
     healthCheckPath: /api/status
     envVars:
@@ -16,4 +16,3 @@ services:
         sync: false
       - key: AI_ACCESS_CODE
         sync: false
-        

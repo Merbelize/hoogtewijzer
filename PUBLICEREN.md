@@ -18,6 +18,17 @@ Wat eenmalig nodig is:
 ## Publiceren
 
 1. Plaats deze map in een persoonlijke code-opslagplaats, bijvoorbeeld op GitHub.
+   Controleer vooral dat deze bestanden en mappen in GitHub staan:
+
+   - `server.mjs`
+   - `package.json`
+   - `render.yaml`
+   - `public/index.html`
+   - `public/app.js`
+   - `public/modules/engine.js`
+   - `public/assets/icon-192.png`
+   - `public/assets/icon-512.png`
+
 2. Kies in Render voor **New** en daarna **Blueprint**.
 3. Koppel de opslagplaats van HoogteWijzer.
 4. Render leest automatisch het bestand `render.yaml`.
