@@ -1,0 +1,466 @@
+import { assessScenario, emptyScenario, buildFallbackAdvice } from "/modules/engine.js";
+
+const form = document.querySelector("#assessment-form");
+const panels = [...document.querySelectorAll("[data-panel]")];
+const stepButtons = [...document.querySelectorAll("[data-go-step]")];
+const layout = document.querySelector(".layout");
+const savedPanel = document.querySelector("#saved-panel");
+const savedList = document.querySelector("#saved-list");
+const previousButton = document.querySelector("#previous-step");
+const nextButton = document.querySelector("#next-step");
+const generateButton = document.querySelector("#generate");
+const toast = document.querySelector("#toast");
+
+const draftKey = "hoogtewijzer-draft-v1";
+const reportsKey = "hoogtewijzer-reports-v1";
+const booleanFields = ["twoHands", "forceRequired", "heavyMaterials", "moveOften"];
+let currentStep = 1;
+let currentResult = null;
+let lastAiAnswer = "";
+let deferredInstallPrompt = null;
+let toastTimer = null;
+
+function localDate() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.hidden = false;
+  window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => {
+    toast.hidden = true;
+  }, 3300);
+}
+
+function getScenario() {
+  const data = new FormData(form);
+  const scenario = { ...emptyScenario };
+  for (const key of Object.keys(scenario)) {
+    if (!["hazards", "equipment", ...booleanFields].includes(key) && data.has(key)) {
+      scenario[key] = String(data.get(key));
+    }
+  }
+  scenario.hazards = data.getAll("hazards").map(String);
+  scenario.equipment = data.getAll("equipment").map(String);
+  for (const key of booleanFields) {
+    scenario[key] = data.has(key);
+  }
+  return scenario;
+}
+
+function fillForm(scenario) {
+  const complete = { ...emptyScenario, ...scenario };
+  for (const [key, value] of Object.entries(complete)) {
+    if (booleanFields.includes(key)) {
+      const element = form.elements.namedItem(key);
+      if (element) element.checked = Boolean(value);
+      continue;
+    }
+    if (key === "hazards" || key === "equipment") {
+      form.querySelectorAll(`input[name="${key}"]`).forEach((input) => {
+        input.checked = Array.isArray(value) && value.includes(input.value);
+      });
+      continue;
+    }
+    const field = form.elements.namedItem(key);
+    if (!field) continue;
+    if (field instanceof RadioNodeList) {
+      field.value = String(value);
+    } else {
+      field.value = String(value ?? "");
+    }
+  }
+}
+
+function saveDraft() {
+  try {
+    localStorage.setItem(draftKey, JSON.stringify(getScenario()));
+  } catch {
+    // A private browser may disallow local storage; the assessment still works.
+  }
+}
+
+function readReports() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(reportsKey) || "[]");
+    return Array.isArray(stored) ? stored : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeReports(reports) {
+  try {
+    localStorage.setItem(reportsKey, JSON.stringify(reports.slice(0, 25)));
+    return true;
+  } catch {
+    showToast("Bewaren is in deze browser niet beschikbaar.");
+    return false;
+  }
+}
+
+function showStep(step, focusHeading = false) {
+  currentStep = Math.max(1, Math.min(4, Number(step)));
+  panels.forEach((panel) => {
+    const active = Number(panel.dataset.panel) === currentStep;
+    panel.hidden = !active;
+    panel.classList.toggle("active", active);
+  });
+  stepButtons.forEach((button) => {
+    const buttonStep = Number(button.dataset.goStep);
+    button.classList.toggle("active", buttonStep === currentStep);
+    button.classList.toggle("complete", buttonStep < currentStep);
+    if (buttonStep === currentStep) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
+  });
+  previousButton.hidden = currentStep === 1 || currentStep === 4;
+  nextButton.hidden = currentStep >= 3;
+  generateButton.hidden = currentStep !== 3;
+  document.querySelector("#form-actions").hidden = currentStep === 4;
+  if (focusHeading) {
+    panels[currentStep - 1].querySelector("h3")?.focus();
+  }
+}
+
+function renderList(selector, values, emptyText = "Geen extra punten.") {
+  const list = document.querySelector(selector);
+  list.replaceChildren();
+  const items = values.length ? values : [emptyText];
+  items.forEach((value) => {
+    const item = document.createElement("li");
+    item.textContent = value;
+    list.append(item);
+  });
+}
+
+function renderResult(result) {
+  currentResult = result;
+  document.querySelector("#result-empty").hidden = true;
+  document.querySelector("#result").hidden = false;
+  const resultHeader = document.querySelector(".result-header");
+  resultHeader.classList.remove("status-stop", "status-attention");
+  if (result.status === "stop") resultHeader.classList.add("status-stop");
+  if (result.status === "attention") resultHeader.classList.add("status-attention");
+
+  const badge = document.querySelector("#risk-badge");
+  badge.className = `badge ${result.status === "stop" ? "stop" : result.status === "attention" ? "attention" : ""}`;
+  badge.textContent = result.riskLabel;
+
+  const labelParts = [result.scenario.taskName || "Beoordeling"];
+  if (result.scenario.location) labelParts.push(result.scenario.location);
+  document.querySelector("#result-task").textContent = labelParts.join(" | ");
+  document.querySelector("#recommendation").textContent = result.recommendation;
+  document.querySelector("#result-explanation").textContent = result.explanation;
+  document.querySelector("#disclaimer").textContent = result.disclaimer;
+
+  renderList("#reason-list", result.reasons);
+  renderList("#measure-list", result.measures);
+  renderList("#check-list", result.checks, "Geen aanvullende controlepunten uit de invoer.");
+  renderList("#reject-list", result.rejected);
+  const stopBox = document.querySelector("#stop-box");
+  stopBox.hidden = result.stops.length === 0;
+  renderList("#stop-list", result.stops);
+
+  lastAiAnswer = "";
+  document.querySelector("#ai-answer").hidden = true;
+  document.querySelector("#ai-answer").replaceChildren();
+}
+
+function generateAdvice() {
+  if (!form.checkValidity()) {
+    showStep(1);
+    form.reportValidity();
+    return false;
+  }
+  const result = assessScenario(getScenario());
+  saveDraft();
+  renderResult(result);
+  showStep(4, true);
+  return true;
+}
+
+function assessmentText(result, aiAnswer = "") {
+  const lines = [
+    "HOOGTEWIJZER - BEOORDELING WERKEN OP HOOGTE",
+    "",
+    `Klus: ${result.scenario.taskName || "-"}`,
+    `Locatie: ${result.scenario.location || "-"}`,
+    `Datum: ${result.scenario.assessmentDate || "-"}`,
+    `Mogelijke valhoogte: ${result.scenario.fallHeight} m`,
+    "",
+    `Status: ${result.riskLabel}`,
+    `Advies: ${result.recommendation}`,
+    result.explanation,
+    "",
+    "Waarom dit advies?",
+    ...result.reasons.map((item) => `- ${item}`),
+    "",
+    "Maatregelen",
+    ...result.measures.map((item) => `- ${item}`),
+    "",
+    "Controle voor de start",
+    ...(result.checks.length ? result.checks : ["Geen aanvullende controlepunten uit de invoer."]).map((item) => `- ${item}`),
+    "",
+    "Let op bij alternatieven",
+    ...result.rejected.map((item) => `- ${item}`)
+  ];
+  if (result.stops.length) {
+    lines.push("", "NIET STARTEN VOORDAT DIT IS OPGELOST", ...result.stops.map((item) => `- ${item}`));
+  }
+  if (aiAnswer) {
+    lines.push("", "AI-toelichting", aiAnswer);
+  }
+  lines.push("", result.disclaimer);
+  return lines.join("\n");
+}
+
+function saveCurrentReport() {
+  if (!currentResult) return;
+  const saved = {
+    id: crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
+    scenario: currentResult.scenario,
+    aiAnswer: lastAiAnswer
+  };
+  const reports = [saved, ...readReports()];
+  if (writeReports(reports)) {
+    renderSavedReports();
+    showToast("De beoordeling is op dit apparaat bewaard.");
+  }
+}
+
+function downloadCurrentReport() {
+  if (!currentResult) return;
+  const blob = new Blob([assessmentText(currentResult, lastAiAnswer)], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  const safeName = (currentResult.scenario.taskName || "beoordeling")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  link.href = url;
+  link.download = `hoogtewijzer-${safeName || "advies"}.txt`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+async function shareCurrentReport() {
+  if (!currentResult) return;
+  const text = assessmentText(currentResult, lastAiAnswer);
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: "HoogteWijzer advies", text });
+      return;
+    } catch (error) {
+      if (error.name === "AbortError") return;
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast("De samenvatting is gekopieerd.");
+  } catch {
+    showToast("Delen is niet beschikbaar. Download het verslag.");
+  }
+}
+
+function createSavedItem(report) {
+  const result = assessScenario(report.scenario);
+  const item = document.createElement("article");
+  item.className = "saved-item";
+  const title = document.createElement("h3");
+  title.textContent = report.scenario.taskName || "Beoordeling";
+  const details = document.createElement("p");
+  const date = new Date(report.createdAt).toLocaleDateString("nl-NL");
+  details.textContent = `${date} | ${result.riskLabel}`;
+  const actions = document.createElement("div");
+  actions.className = "saved-item-actions";
+  const open = document.createElement("button");
+  open.type = "button";
+  open.textContent = "Open";
+  open.addEventListener("click", () => {
+    fillForm(report.scenario);
+    renderResult(result);
+    lastAiAnswer = report.aiAnswer || "";
+    if (lastAiAnswer) showAiAnswer(lastAiAnswer, "Bewaarde AI-toelichting");
+    showStep(4, true);
+    closeSavedPanel();
+  });
+  const remove = document.createElement("button");
+  remove.type = "button";
+  remove.textContent = "Verwijder";
+  remove.addEventListener("click", () => {
+    writeReports(readReports().filter((entry) => entry.id !== report.id));
+    renderSavedReports();
+  });
+  actions.append(open, remove);
+  item.append(title, details, actions);
+  return item;
+}
+
+function renderSavedReports() {
+  savedList.replaceChildren();
+  const reports = readReports();
+  if (!reports.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty-saved";
+    empty.textContent = "Er zijn nog geen beoordelingen bewaard.";
+    savedList.append(empty);
+    return;
+  }
+  reports.forEach((report) => savedList.append(createSavedItem(report)));
+}
+
+function openSavedPanel() {
+  renderSavedReports();
+  savedPanel.hidden = false;
+  layout.classList.add("saved-open");
+  document.querySelector("#saved-title").focus?.();
+}
+
+function closeSavedPanel() {
+  savedPanel.hidden = true;
+  layout.classList.remove("saved-open");
+}
+
+function showAiAnswer(content, heading) {
+  const answer = document.querySelector("#ai-answer");
+  answer.replaceChildren();
+  const title = document.createElement("strong");
+  title.textContent = heading;
+  answer.append(title, document.createTextNode(content));
+  answer.hidden = false;
+}
+
+async function fetchAiStatus() {
+  const status = document.querySelector("#ai-status");
+  const button = document.querySelector("#ask-ai");
+  try {
+    const response = await fetch("/api/status");
+    const data = await response.json();
+    status.textContent = data.aiConfigured ? "AI actief" : "AI nog niet geactiveerd";
+    document.querySelector("#ai-access").hidden = !data.accessRequired;
+    button.title = data.aiConfigured
+      ? "Maak een AI-advies op basis van de beoordeling"
+      : "Stel de AI-sleutel op de server in om live AI te gebruiken";
+  } catch {
+    status.textContent = "AI niet bereikbaar";
+  }
+}
+
+async function askAi() {
+  if (!currentResult) return;
+  const button = document.querySelector("#ask-ai");
+  const question = document.querySelector("#ai-question").value;
+  button.disabled = true;
+  button.textContent = "Bezig...";
+  showAiAnswer("Een ogenblik, ik maak het advies kort en duidelijk.", "AI maakt uitleg");
+  try {
+    const headers = { "Content-Type": "application/json" };
+    const accessField = document.querySelector("#ai-access-code");
+    if (!document.querySelector("#ai-access").hidden && accessField.value) {
+      headers["X-AI-Access-Code"] = accessField.value;
+    }
+    const response = await fetch("/api/ai-advice", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ scenario: currentResult.scenario, question })
+    });
+    if (!response.ok) {
+      const problem = await response.json().catch(() => ({}));
+      throw new Error(problem.error || "AI kon geen advies maken.");
+    }
+    const data = await response.json();
+    lastAiAnswer = data.content;
+    const heading = data.mode === "ai" ? "Korte uitleg" : "Basisadvies - AI niet actief";
+    showAiAnswer(`${data.notice ? `${data.notice}\n\n` : ""}${data.content}`, heading);
+  } catch (error) {
+    lastAiAnswer = buildFallbackAdvice(currentResult);
+    const reason = error instanceof Error ? `${error.message}\n\n` : "";
+    showAiAnswer(`${reason}${lastAiAnswer}`, "Basisadvies - AI niet beschikbaar");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Leg kort uit";
+  }
+}
+
+function startNewAssessment() {
+  form.reset();
+  fillForm({ ...emptyScenario, assessmentDate: localDate() });
+  currentResult = null;
+  lastAiAnswer = "";
+  document.querySelector("#result").hidden = true;
+  document.querySelector("#result-empty").hidden = false;
+  saveDraft();
+  closeSavedPanel();
+  showStep(1, true);
+}
+
+form.addEventListener("input", saveDraft);
+form.addEventListener("change", saveDraft);
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  generateAdvice();
+});
+
+stepButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const step = Number(button.dataset.goStep);
+    if (step === 4 && !currentResult) {
+      showStep(4, true);
+      return;
+    }
+    showStep(step, true);
+  });
+});
+
+nextButton.addEventListener("click", () => {
+  if (currentStep === 1 && !form.querySelector('[name="taskName"]').checkValidity()) {
+    form.querySelector('[name="taskName"]').reportValidity();
+    return;
+  }
+  if (currentStep === 1 && !form.querySelector('[name="fallHeight"]').checkValidity()) {
+    form.querySelector('[name="fallHeight"]').reportValidity();
+    return;
+  }
+  showStep(currentStep + 1, true);
+});
+previousButton.addEventListener("click", () => showStep(currentStep - 1, true));
+document.querySelector("#new-assessment").addEventListener("click", startNewAssessment);
+document.querySelector("#saved-toggle").addEventListener("click", openSavedPanel);
+document.querySelector("#saved-close").addEventListener("click", closeSavedPanel);
+document.querySelector("#save-report").addEventListener("click", saveCurrentReport);
+document.querySelector("#download-report").addEventListener("click", downloadCurrentReport);
+document.querySelector("#print-report").addEventListener("click", () => window.print());
+document.querySelector("#share-report").addEventListener("click", shareCurrentReport);
+document.querySelector("#ask-ai").addEventListener("click", askAi);
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  document.querySelector("#install-button").hidden = false;
+});
+
+document.querySelector("#install-button").addEventListener("click", async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  document.querySelector("#install-button").hidden = true;
+});
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+}
+
+try {
+  const draft = JSON.parse(localStorage.getItem(draftKey) || "null");
+  fillForm(draft || { ...emptyScenario, assessmentDate: localDate() });
+} catch {
+  fillForm({ ...emptyScenario, assessmentDate: localDate() });
+}
+showStep(1);
+fetchAiStatus();
