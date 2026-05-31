@@ -12,7 +12,7 @@ services:
         value: 0.0.0.0
       - key: OPENAI_MODEL
         value: gpt-5.4-mini
-      - key: OPENAI_API_KEY
+      - key: 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
         sync: false
-      - key: AI_ACCESS_CODE
+      - key: 2e67d6a7
         sync: false
