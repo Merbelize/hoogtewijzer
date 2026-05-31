@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="HoogteWijzer">
-  <rect width="512" height="512" rx="112" fill="#123b4a"/>
-  <path d="M108 384h296" stroke="#d7ece7" stroke-width="28" stroke-linecap="round"/>
-  <path d="M163 351V170c0-22 18-40 40-40h106c22 0 40 18 40 40v181" fill="none" stroke="#d7ece7" stroke-width="28" stroke-linejoin="round"/>
-  <path d="M145 233h222" stroke="#3eb88f" stroke-width="30" stroke-linecap="round"/>
-  <path d="M226 295l23 23 47-56" fill="none" stroke="#ffc857" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
