@@ -26,266 +26,212 @@
     </header>
 
     <main>
-      <section class="hero" aria-labelledby="hero-title">
+      <section class="hero visual-hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">Voor de werkvloer</p>
-          <h1 id="hero-title">Welke werkplek kies je?</h1>
+          <h1 id="hero-title">Kies snel je veilige werkplek</h1>
           <p class="intro">
-            Vul kort in wat je gaat doen. Je krijgt meteen een duidelijk advies:
-            welk middel past, waarom, en wat je eerst moet regelen.
+            Beantwoord een paar korte vragen. De app laat visueel zien welke keuze
+            logisch is en geeft direct een kort, motiverend AI-advies.
           </p>
+          <div class="hero-actions">
+            <a class="primary hero-button" href="#keuzehulp">Start keuzehulp</a>
+            <span class="micro-copy">Ongeveer 1 minuut</span>
+          </div>
         </div>
-        <div class="principles" aria-label="Veilige volgorde">
-          <p class="principles-title">Denkvolgorde</p>
-          <ol>
-            <li>Kan het vanaf de grond?</li>
-            <li>Kan er een veilige werkplek komen?</li>
-            <li>Past het middel bij de klus?</li>
-            <li>Check voor je start</li>
-          </ol>
+        <div class="hero-stage" aria-hidden="true">
+          <svg class="site-scene" viewBox="0 0 520 360">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#e4f3ee"/>
+                <stop offset="100%" stop-color="#f8fbfa"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="520" height="360" rx="34" fill="url(#sky)"/>
+            <polygon points="52,286 460,286 500,330 24,330" fill="#dce7e4"/>
+            <polygon points="106,93 182,93 182,286 106,286" fill="#123b4a"/>
+            <polygon points="118,112 170,112 170,151 118,151" fill="#d7ece7"/>
+            <polygon points="118,168 170,168 170,207 118,207" fill="#d7ece7"/>
+            <g class="float-card card-ladder">
+              <rect x="306" y="88" width="96" height="150" rx="12" fill="#fff" opacity=".92"/>
+              <path d="M338 220l42-110M360 220l42-110" stroke="#a66300" stroke-width="8" stroke-linecap="round"/>
+              <path d="M344 170h42M352 146h42M360 123h42" stroke="#ffc857" stroke-width="6" stroke-linecap="round"/>
+            </g>
+            <g class="worker worker-one">
+              <circle cx="247" cy="132" r="18" fill="#ffc857"/>
+              <polygon points="225,156 265,150 280,210 236,217" fill="#3eb88f"/>
+              <path d="M236 218l-18 52M268 212l25 50" stroke="#123b4a" stroke-width="12" stroke-linecap="round"/>
+              <path d="M228 164l-36 22M264 160l34 20" stroke="#123b4a" stroke-width="10" stroke-linecap="round"/>
+            </g>
+            <g class="lift">
+              <rect x="292" y="250" width="112" height="32" rx="10" fill="#123b4a"/>
+              <circle cx="318" cy="289" r="13" fill="#092832"/>
+              <circle cx="378" cy="289" r="13" fill="#092832"/>
+              <path d="M326 250l-34-74h88l-32 74" fill="none" stroke="#3eb88f" stroke-width="9" stroke-linejoin="round"/>
+              <rect x="276" y="150" width="118" height="28" rx="8" fill="#ffc857"/>
+            </g>
+          </svg>
         </div>
       </section>
 
-      <div class="notice" role="note">
-        <strong>Let op:</strong> Deze app helpt je kiezen. Stop bij twijfel en overleg met je
-        leidinggevende of veiligheidskundige.
+      <section class="process-strip" aria-label="Hoe werkt het">
+        <div><span>1</span><strong>Klus</strong><small>Wat ga je doen?</small></div>
+        <div><span>2</span><strong>Plek</strong><small>Waar zit het risico?</small></div>
+        <div><span>3</span><strong>Middel</strong><small>Wat is beschikbaar?</small></div>
+        <div><span>4</span><strong>Advies</strong><small>Start, regel of stop.</small></div>
+      </section>
+
+      <div class="notice simple-notice" role="note">
+        <strong>Kort en duidelijk:</strong> zegt de app “stop” of twijfel je? Overleg eerst met je leidinggevende.
       </div>
 
       <div class="layout">
-        <section class="wizard card" id="keuzehulp" aria-label="Nieuwe beoordeling">
+        <section class="wizard card visual-wizard" id="keuzehulp" aria-label="Nieuwe beoordeling">
           <div class="card-head">
             <div>
-              <p class="eyebrow">Korte keuzehulp</p>
-              <h2>Vul je klus in</h2>
+              <p class="eyebrow">Sneladvies</p>
+              <h2>Maak je keuze</h2>
             </div>
-            <button class="text-button" id="new-assessment" type="button">Opnieuw beginnen</button>
+            <button class="text-button" id="new-assessment" type="button">Opnieuw</button>
           </div>
 
-          <nav class="steps" aria-label="Stappen">
-            <button class="step active" type="button" data-go-step="1" aria-current="step">
-              <span>1</span> Klus
-            </button>
-            <button class="step" type="button" data-go-step="2">
-              <span>2</span> Situatie
-            </button>
-            <button class="step" type="button" data-go-step="3">
-              <span>3</span> Middel
-            </button>
-            <button class="step" type="button" data-go-step="4">
-              <span>4</span> Advies
-            </button>
+          <nav class="steps visual-steps" aria-label="Stappen">
+            <button class="step active" type="button" data-go-step="1" aria-current="step"><span>1</span> Klus</button>
+            <button class="step" type="button" data-go-step="2"><span>2</span> Plek</button>
+            <button class="step" type="button" data-go-step="3"><span>3</span> Middel</button>
+            <button class="step" type="button" data-go-step="4"><span>4</span> Advies</button>
           </nav>
 
           <form id="assessment-form" novalidate>
+            <input type="hidden" name="location" value="">
+            <input type="hidden" name="assessmentDate" value="">
+            <input type="hidden" name="frequency" value="once">
+            <input type="hidden" name="responsibleRole" value="">
+            <input type="hidden" name="notes" value="">
+            <input type="hidden" name="supervision" value="unknown">
+            <input type="hidden" name="liftCompetence" value="unknown">
+            <input type="hidden" name="rescuePlan" value="notApplicable">
+
             <section class="panel active" data-panel="1" aria-labelledby="panel-one-title">
-              <h3 id="panel-one-title" tabindex="-1">Wat ga je doen?</h3>
-              <div class="fields two-columns">
-                <label class="field wide">
-                  <span>Klus <em>verplicht</em></span>
-                  <input name="taskName" type="text" maxlength="100" required placeholder="Bijvoorbeeld: lamp vervangen in magazijn">
-                </label>
+              <div class="panel-intro">
+                <p class="eyebrow">Stap 1</p>
+                <h3 id="panel-one-title" tabindex="-1">Wat ga je doen?</h3>
+                <p>Kies de klus. Houd het kort.</p>
+              </div>
+
+              <label class="field big-input">
+                <span>Klus</span>
+                <input name="taskName" type="text" maxlength="100" required placeholder="Bijv. lamp vervangen">
+              </label>
+
+              <fieldset class="choice-block visual-choice">
+                <legend>Soort werk</legend>
+                <div class="tile-grid work-grid">
+                  <label class="visual-tile"><input type="radio" name="workType" value="inspection"><span class="tile-icon">Kijk</span><strong>Inspectie</strong></label>
+                  <label class="visual-tile"><input type="radio" name="workType" value="maintenance" checked><span class="tile-icon">Fix</span><strong>Onderhoud</strong></label>
+                  <label class="visual-tile"><input type="radio" name="workType" value="installation"><span class="tile-icon">Maak</span><strong>Montage</strong></label>
+                  <label class="visual-tile"><input type="radio" name="workType" value="painting"><span class="tile-icon">Werk</span><strong>Afwerking</strong></label>
+                </div>
+              </fieldset>
+
+              <div class="quick-row">
                 <label class="field">
-                  <span>Soort werk</span>
-                  <select name="workType">
-                    <option value="inspection">Inspectie of opname</option>
-                    <option value="maintenance" selected>Onderhoud of reiniging</option>
-                    <option value="installation">Montage of installatie</option>
-                    <option value="painting">Schilder- of gevelwerk</option>
-                    <option value="logistics">Materiaal plaatsen of verplaatsen</option>
-                    <option value="other">Overig werk</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Hoe hoog kun je vallen? <em>verplicht</em></span>
+                  <span>Valhoogte</span>
                   <input name="fallHeight" type="number" inputmode="decimal" min="0" max="100" step="0.1" required placeholder="2,5">
-                  <small>Ook onder 2,50 m kan valgevaar bestaan.</small>
                 </label>
-                <label class="field">
-                  <span>Hoe lang duurt de klus?</span>
-                  <select name="duration">
-                    <option value="brief">Korter dan 15 minuten</option>
-                    <option value="short" selected>15 tot 60 minuten</option>
-                    <option value="halfDay">1 tot 4 uur</option>
-                    <option value="day">Langer dan 4 uur</option>
-                  </select>
-                </label>
-                <details class="advanced wide">
-                  <summary>Extra invullen als je wilt</summary>
-                  <div class="fields two-columns">
-                    <label class="field">
-                      <span>Locatie of werkgebied</span>
-                      <input name="location" type="text" maxlength="100" placeholder="Bijvoorbeeld: hal B">
-                    </label>
-                    <label class="field">
-                      <span>Datum</span>
-                      <input name="assessmentDate" type="date">
-                    </label>
-                    <label class="field">
-                      <span>Komt dit vaker voor?</span>
-                      <select name="frequency">
-                        <option value="once">Eenmalig</option>
-                        <option value="sometimes">Soms</option>
-                        <option value="often">Vaak</option>
-                      </select>
-                    </label>
+                <fieldset class="choice-block compact-choice">
+                  <legend>Duur</legend>
+                  <div class="segmented">
+                    <label><input type="radio" name="duration" value="brief"> Kort</label>
+                    <label><input type="radio" name="duration" value="short" checked> Normaal</label>
+                    <label><input type="radio" name="duration" value="halfDay"> Lang</label>
                   </div>
-                </details>
+                </fieldset>
               </div>
             </section>
 
             <section class="panel" data-panel="2" aria-labelledby="panel-two-title" hidden>
-              <h3 id="panel-two-title" tabindex="-1">Hoe ziet de plek eruit?</h3>
-              <fieldset class="choice-block">
-                <legend>Kan de klus vanaf de grond?</legend>
-                <div class="segmented">
-                  <label><input type="radio" name="avoidHeight" value="yes"> Ja</label>
-                  <label><input type="radio" name="avoidHeight" value="no"> Nee</label>
-                  <label><input type="radio" name="avoidHeight" value="unknown" checked> Weet ik niet</label>
+              <div class="panel-intro">
+                <p class="eyebrow">Stap 2</p>
+                <h3 id="panel-two-title" tabindex="-1">Wat zie je op de plek?</h3>
+                <p>Kies alleen wat je zeker weet.</p>
+              </div>
+
+              <div class="scene-row">
+                <fieldset class="choice-block visual-choice">
+                  <legend>Kan het vanaf de grond?</legend>
+                  <div class="segmented large">
+                    <label><input type="radio" name="avoidHeight" value="yes"> Ja</label>
+                    <label><input type="radio" name="avoidHeight" value="no"> Nee</label>
+                    <label><input type="radio" name="avoidHeight" value="unknown" checked> Weet ik niet</label>
+                  </div>
+                </fieldset>
+                <fieldset class="choice-block visual-choice">
+                  <legend>Is er al een veilige werkplek?</legend>
+                  <div class="segmented large">
+                    <label><input type="radio" name="protectedPlatform" value="yes"> Ja, met leuning</label>
+                    <label><input type="radio" name="protectedPlatform" value="no" checked> Nee</label>
+                    <label><input type="radio" name="protectedPlatform" value="unknown"> Weet ik niet</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <fieldset class="choice-block visual-choice">
+                <legend>Wat maakt de klus lastiger?</legend>
+                <div class="tile-grid">
+                  <label class="visual-tile small"><input type="checkbox" name="twoHands"><span>2x</span><strong>Twee handen</strong></label>
+                  <label class="visual-tile small"><input type="checkbox" name="forceRequired"><span>!</span><strong>Kracht/reiken</strong></label>
+                  <label class="visual-tile small"><input type="checkbox" name="heavyMaterials"><span>Kg</span><strong>Zwaar materiaal</strong></label>
+                  <label class="visual-tile small"><input type="checkbox" name="moveOften"><span>&lt;&gt;</span><strong>Veel verplaatsen</strong></label>
                 </div>
               </fieldset>
-              <fieldset class="choice-block">
-                <legend>Is er al een veilige werkplek met leuning?</legend>
-                <div class="segmented">
-                  <label><input type="radio" name="protectedPlatform" value="yes"> Ja</label>
-                  <label><input type="radio" name="protectedPlatform" value="no" checked> Nee</label>
-                  <label><input type="radio" name="protectedPlatform" value="unknown"> Weet ik niet</label>
-                </div>
-              </fieldset>
-              <fieldset class="choice-block">
-                <legend>Wat moet je tijdens de klus doen?</legend>
-                <div class="checks">
-                  <label><input type="checkbox" name="twoHands"> Met twee handen werken</label>
-                  <label><input type="checkbox" name="forceRequired"> Kracht zetten of ver reiken</label>
-                  <label><input type="checkbox" name="heavyMaterials"> Zwaar of groot materiaal meenemen</label>
-                  <label><input type="checkbox" name="moveOften"> Vaak verplaatsen</label>
-                </div>
-              </fieldset>
-              <fieldset class="choice-block">
-                <legend>Wat maakt vallen extra gevaarlijk?</legend>
-                <div class="checks grid">
-                  <label><input type="checkbox" name="hazards" value="openings"> Openingen of gaten</label>
+
+              <fieldset class="choice-block visual-choice">
+                <legend>Extra gevaar in de buurt?</legend>
+                <div class="risk-pills">
+                  <label><input type="checkbox" name="hazards" value="openings"> Gat/opening</label>
                   <label><input type="checkbox" name="hazards" value="fragileRoof"> Breekbaar dak</label>
-                  <label><input type="checkbox" name="hazards" value="traffic"> Verkeer of transport</label>
+                  <label><input type="checkbox" name="hazards" value="traffic"> Verkeer</label>
                   <label><input type="checkbox" name="hazards" value="water"> Water</label>
                   <label><input type="checkbox" name="hazards" value="machinery"> Machines</label>
-                  <label><input type="checkbox" name="hazards" value="sharpObjects"> Uitstekende delen</label>
-                  <label><input type="checkbox" name="hazards" value="publicArea"> Publiek</label>
-                  <label><input type="checkbox" name="hazards" value="electricity"> Elektriciteit</label>
+                  <label><input type="checkbox" name="hazards" value="electricity"> Elektra</label>
                 </div>
               </fieldset>
-              <div class="fields three-columns">
-                <label class="field">
-                  <span>Ondergrond</span>
-                  <select name="surface">
-                    <option value="unknown">Weet ik niet</option>
-                    <option value="stable">Stabiel en draagkrachtig</option>
-                    <option value="unstable">Niet stabiel of niet draagkrachtig</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Ruimte om iets neer te zetten</span>
-                  <select name="space">
-                    <option value="unknown">Weet ik niet</option>
-                    <option value="ample">Voldoende ruimte</option>
-                    <option value="limited">Beperkte ruimte</option>
-                    <option value="none">Geen veilige opstelruimte</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Weer of wind</span>
-                  <select name="weather">
-                    <option value="notApplicable">Niet van toepassing / binnen</option>
-                    <option value="safe">Buiten, omstandigheden veilig</option>
-                    <option value="unsafe">Buiten, omstandigheden onveilig</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Verkeer of publiek afgeschermd?</span>
-                  <select name="segregated">
-                    <option value="unknown">Weet ik niet</option>
-                    <option value="yes">Ja, afgeschermd</option>
-                    <option value="no">Nee</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Elektrisch gevaar weggenomen?</span>
-                  <select name="electricalControl">
-                    <option value="unknown">Weet ik niet</option>
-                    <option value="yes">Ja, aantoonbaar beheerst</option>
-                    <option value="no">Nee</option>
-                  </select>
-                </label>
+
+              <div class="quick-row three">
+                <label class="field"><span>Ondergrond</span><select name="surface"><option value="unknown">Weet ik niet</option><option value="stable">Stabiel</option><option value="unstable">Niet stabiel</option></select></label>
+                <label class="field"><span>Ruimte</span><select name="space"><option value="unknown">Weet ik niet</option><option value="ample">Genoeg</option><option value="limited">Beperkt</option><option value="none">Geen</option></select></label>
+                <label class="field"><span>Weer/wind</span><select name="weather"><option value="notApplicable">Binnen/n.v.t.</option><option value="safe">Veilig</option><option value="unsafe">Onveilig</option></select></label>
+                <label class="field"><span>Verkeer afgeschermd?</span><select name="segregated"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
+                <label class="field"><span>Elektra veilig?</span><select name="electricalControl"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
               </div>
             </section>
 
             <section class="panel" data-panel="3" aria-labelledby="panel-three-title" hidden>
-              <h3 id="panel-three-title" tabindex="-1">Welk middel is beschikbaar?</h3>
-              <fieldset class="choice-block">
-                <legend>Vink aan wat je echt kunt gebruiken</legend>
-                <p class="help">Weet je het niet? Laat het leeg. De app zegt dan wat geregeld moet worden.</p>
-                <div class="checks grid">
-                  <label><input type="checkbox" name="equipment" value="permanentPlatform"> Vast bordes / werkvloer</label>
-                  <label><input type="checkbox" name="equipment" value="edgeProtection"> Randbeveiliging</label>
-                  <label><input type="checkbox" name="equipment" value="scaffold"> Vaste steiger</label>
-                  <label><input type="checkbox" name="equipment" value="rollingScaffold"> Rolsteiger</label>
-                  <label><input type="checkbox" name="equipment" value="scissorLift"> Schaarhoogwerker</label>
-                  <label><input type="checkbox" name="equipment" value="boomLift"> Knik-/telescoophoogwerker</label>
-                  <label><input type="checkbox" name="equipment" value="podiumStep"> Bordestrap</label>
-                  <label><input type="checkbox" name="equipment" value="ladder"> Ladder of trap</label>
-                  <label><input type="checkbox" name="equipment" value="fallProtection"> Valbeveiliging / ankerpunt</label>
+              <div class="panel-intro">
+                <p class="eyebrow">Stap 3</p>
+                <h3 id="panel-three-title" tabindex="-1">Wat kun je gebruiken?</h3>
+                <p>Kies wat echt beschikbaar is. De app adviseert veilig.</p>
+              </div>
+
+              <fieldset class="choice-block equipment-choice">
+                <legend>Arbeidsmiddel</legend>
+                <div class="equipment-grid">
+                  <label class="equipment-card"><input type="checkbox" name="equipment" value="ladder"><svg viewBox="0 0 120 90"><path d="M43 78 70 14M66 78 93 14" stroke="#a66300" stroke-width="7" stroke-linecap="round"/><path d="M50 60h27M57 43h27M64 27h27" stroke="#ffc857" stroke-width="5" stroke-linecap="round"/></svg><strong>Ladder</strong></label>
+                  <label class="equipment-card"><input type="checkbox" name="equipment" value="rollingScaffold"><svg viewBox="0 0 120 90"><rect x="28" y="18" width="64" height="12" rx="4" fill="#ffc857"/><path d="M34 30v42M86 30v42M34 46h52M34 62h52" stroke="#123b4a" stroke-width="6"/><circle cx="35" cy="76" r="5" fill="#092832"/><circle cx="86" cy="76" r="5" fill="#092832"/></svg><strong>Rolsteiger</strong></label>
+                  <label class="equipment-card"><input type="checkbox" name="equipment" value="scaffold"><svg viewBox="0 0 120 90"><rect x="18" y="20" width="84" height="12" rx="4" fill="#ffc857"/><path d="M24 32v44M60 32v44M96 32v44M24 48h72M24 64h72" stroke="#123b4a" stroke-width="6"/></svg><strong>Steiger</strong></label>
+                  <label class="equipment-card"><input type="checkbox" name="equipment" value="boomLift"><svg viewBox="0 0 120 90"><rect x="58" y="58" width="42" height="14" rx="5" fill="#123b4a"/><circle cx="68" cy="76" r="5" fill="#092832"/><circle cx="91" cy="76" r="5" fill="#092832"/><path d="M70 58 44 33h42" fill="none" stroke="#3eb88f" stroke-width="7" stroke-linejoin="round"/><rect x="35" y="24" width="48" height="13" rx="4" fill="#ffc857"/></svg><strong>Hoogwerker</strong></label>
+                  <label class="equipment-card"><input type="checkbox" name="equipment" value="permanentPlatform"><svg viewBox="0 0 120 90"><rect x="22" y="30" width="76" height="12" rx="4" fill="#ffc857"/><path d="M28 30V18M50 30V18M72 30V18M94 30V18M22 18h76M30 42v32h60V42" stroke="#123b4a" stroke-width="6" fill="none"/></svg><strong>Bordes</strong></label>
+                  <label class="equipment-card"><input type="checkbox" name="equipment" value="podiumStep"><svg viewBox="0 0 120 90"><rect x="33" y="24" width="48" height="12" rx="4" fill="#ffc857"/><path d="M40 36 25 75M75 36l20 39M37 52h45M31 64h58" stroke="#123b4a" stroke-width="6" stroke-linecap="round"/></svg><strong>Bordestrap</strong></label>
+                  <label class="equipment-card compact"><input type="checkbox" name="equipment" value="scissorLift"><strong>Schaarhoogwerker</strong></label>
+                  <label class="equipment-card compact"><input type="checkbox" name="equipment" value="edgeProtection"><strong>Randbeveiliging</strong></label>
+                  <label class="equipment-card compact"><input type="checkbox" name="equipment" value="fallProtection"><strong>Valbeveiliging</strong></label>
                 </div>
               </fieldset>
-              <div class="fields two-columns">
-                <label class="field">
-                  <span>Is het middel gecontroleerd?</span>
-                  <select name="inspectionStatus">
-                    <option value="unknown">Weet ik niet</option>
-                    <option value="yes">Aantoonbaar in orde</option>
-                    <option value="no">Niet in orde / verlopen</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Ben je geïnstrueerd voor dit middel?</span>
-                  <select name="generalCompetence">
-                    <option value="unknown">Weet ik niet</option>
-                    <option value="yes">Ja</option>
-                    <option value="no">Nee</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Bij hoogwerker: bevoegde bediener?</span>
-                  <select name="liftCompetence">
-                    <option value="notApplicable">Niet van toepassing</option>
-                    <option value="yes">Ja, geïnstrueerde bediener</option>
-                    <option value="no">Nee</option>
-                    <option value="unknown">Weet ik niet</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Bij valbeveiliging: redding geregeld?</span>
-                  <select name="rescuePlan">
-                    <option value="notApplicable">Niet van toepassing</option>
-                    <option value="yes">Aanwezig en besproken</option>
-                    <option value="no">Niet aanwezig</option>
-                    <option value="unknown">Weet ik niet</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Controle door leidinggevende?</span>
-                  <select name="supervision">
-                    <option value="unknown">Weet ik niet</option>
-                    <option value="yes">Ja</option>
-                    <option value="no">Nee</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Wie controleert?</span>
-                  <input name="responsibleRole" type="text" maxlength="80" placeholder="Bijvoorbeeld: uitvoerder">
-                </label>
-                <label class="field wide">
-                  <span>Opmerking</span>
-                  <textarea name="notes" rows="3" maxlength="500" placeholder="Bijvoorbeeld: toegang via smalle doorgang"></textarea>
-                </label>
+
+              <div class="quick-row">
+                <label class="field"><span>Middel gecontroleerd?</span><select name="inspectionStatus"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
+                <label class="field"><span>Jij instructie gehad?</span><select name="generalCompetence"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
               </div>
             </section>
 
@@ -302,40 +248,25 @@
                   <p class="result-explanation" id="result-explanation"></p>
                 </div>
                 <section class="stop-box" id="stop-box" hidden>
-                <h4>Stop eerst. Los dit op:</h4>
+                  <h4>Stop eerst. Los dit op:</h4>
                   <ul id="stop-list"></ul>
                 </section>
                 <div class="result-columns">
-                  <section>
-                    <h4>Waarom dit advies?</h4>
-                    <ul id="reason-list"></ul>
-                  </section>
-                  <section>
-                    <h4>Maatregelen</h4>
-                    <ul id="measure-list"></ul>
-                  </section>
-                  <section>
-                    <h4>Controle voor de start</h4>
-                    <ul id="check-list"></ul>
-                  </section>
-                  <section>
-                    <h4>Let op bij alternatieven</h4>
-                    <ul id="reject-list"></ul>
-                  </section>
+                  <section><h4>Waarom?</h4><ul id="reason-list"></ul></section>
+                  <section><h4>Regel dit</h4><ul id="measure-list"></ul></section>
+                  <section><h4>Check</h4><ul id="check-list"></ul></section>
+                  <section><h4>Niet zomaar kiezen</h4><ul id="reject-list"></ul></section>
                 </div>
 
                 <section class="ai-card" aria-labelledby="ai-title">
                   <div class="ai-heading">
                     <div>
                       <p class="eyebrow">AI-advies</p>
-                    <h4 id="ai-title">Laat AI het kort uitleggen</h4>
+                      <h4 id="ai-title">Laat AI het kort uitleggen</h4>
                     </div>
                     <span class="ai-status" id="ai-status">AI controleren...</span>
                   </div>
-                  <p class="help">
-                    AI maakt het advies kort en praktisch. Bij gebruik worden je ingevulde
-                    klusgegevens en vraag naar de AI-dienst gestuurd. Vul geen persoonsgegevens in.
-                  </p>
+                  <p class="help">AI maakt het advies kort en praktisch. Vul geen persoonsgegevens in.</p>
                   <label class="field">
                     <span>Wat wil je weten?</span>
                     <textarea id="ai-question" rows="2" maxlength="800">Leg kort uit wat ik nu moet doen en waarom.</textarea>
@@ -351,10 +282,10 @@
 
                 <p class="disclaimer" id="disclaimer"></p>
                 <div class="report-actions">
-                  <button class="primary" id="save-report" type="button">Bewaar beoordeling</button>
-                  <button class="secondary" id="download-report" type="button">Download verslag</button>
-                  <button class="secondary" id="print-report" type="button">Afdrukken / PDF</button>
-                  <button class="secondary" id="share-report" type="button">Deel samenvatting</button>
+                  <button class="primary" id="save-report" type="button">Bewaar</button>
+                  <button class="secondary" id="download-report" type="button">Download</button>
+                  <button class="secondary" id="print-report" type="button">PDF</button>
+                  <button class="secondary" id="share-report" type="button">Deel</button>
                 </div>
               </div>
             </section>
@@ -371,36 +302,34 @@
           <div class="card-head">
             <div>
               <p class="eyebrow">Op dit apparaat</p>
-              <h2 id="saved-title" tabindex="-1">Bewaarde beoordelingen</h2>
+              <h2 id="saved-title" tabindex="-1">Bewaard</h2>
             </div>
             <button class="text-button" id="saved-close" type="button">Sluiten</button>
           </div>
-          <p class="help">Gegevens blijven alleen in deze browser staan, tenzij je een verslag deelt.</p>
+          <p class="help">Alleen opgeslagen in deze browser.</p>
           <div class="saved-list" id="saved-list"></div>
         </aside>
       </div>
 
       <section class="about card" aria-labelledby="about-title">
         <div>
-          <p class="eyebrow">Over de methode</p>
-          <h2 id="about-title">Een keuze die uitlegbaar blijft</h2>
+          <p class="eyebrow">Waarom zo?</p>
+          <h2 id="about-title">Kort, visueel en uitlegbaar</h2>
         </div>
         <p>
-          De beslisregels geven voorrang aan voorkomen van hoogtewerk en collectieve
-          maatregelen. AI vertaalt het gecontroleerde resultaat naar begrijpelijke,
-          taakgerichte uitleg en vervolgstappen.
+          De app houdt de veilige volgorde vast: voorkom hoogtewerk, kies een
+          veilige werkplek, gebruik een passend middel en check voor je start.
         </p>
         <div class="sources">
-          <a href="https://www.arboportaal.nl/onderwerpen/inrichting-werkvloer/werken-op-hoogte" target="_blank" rel="noreferrer">Arboportaal: werken op hoogte</a>
-          <a href="https://www.arboportaal.nl/onderwerpen/inrichting-werkvloer/werken-op-hoogte/wat-zegt-de-wet-over-werken-op-hoogte" target="_blank" rel="noreferrer">Wettelijke uitgangspunten</a>
-          <a href="https://www.nlarbeidsinspectie.nl/onderwerpen/arbeidsomstandighedenwet/rolsteigers" target="_blank" rel="noreferrer">Arbeidsinspectie: rolsteigers</a>
+          <a href="https://www.arboportaal.nl/onderwerpen/inrichting-werkvloer/werken-op-hoogte" target="_blank" rel="noreferrer">Arboportaal</a>
+          <a href="https://www.nlarbeidsinspectie.nl/onderwerpen/arbeidsomstandighedenwet/rolsteigers" target="_blank" rel="noreferrer">Arbeidsinspectie</a>
         </div>
       </section>
     </main>
 
     <footer>
-      <p><strong>HoogteWijzer</strong> | Beslisondersteuning voor veilig werken op hoogte</p>
-      <p>Controleer regels, arbocatalogus en bedrijfsafspraken voordat de app in de praktijk wordt ingezet.</p>
+      <p><strong>HoogteWijzer</strong> | Hulpmiddel voor veilig werken op hoogte</p>
+      <p>Stop bij twijfel en overleg met je leidinggevende of veiligheidskundige.</p>
     </footer>
     <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   </body>

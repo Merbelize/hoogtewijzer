@@ -142,6 +142,114 @@ main {
   margin: 0 0 1.3rem;
 }
 
+.visual-hero {
+  grid-template-columns: minmax(280px, 0.9fr) minmax(280px, 1fr);
+  min-height: 360px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.3rem;
+}
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  text-decoration: none;
+}
+
+.micro-copy {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.hero-stage {
+  position: relative;
+  min-height: 320px;
+}
+
+.site-scene {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 45px rgba(18, 59, 74, 0.12));
+}
+
+.float-card {
+  animation: floatCard 4.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.worker-one {
+  animation: workerMove 5.5s ease-in-out infinite;
+  transform-origin: 250px 180px;
+}
+
+.lift {
+  animation: liftPulse 5s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes workerMove {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(8px, -6px); }
+}
+
+@keyframes liftPulse {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: .9; transform: translateY(-5px); }
+}
+
+.process-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.process-strip div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.05rem 0.55rem;
+  align-items: center;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 8px 22px rgba(18, 59, 74, 0.06);
+}
+
+.process-strip span {
+  display: grid;
+  grid-row: span 2;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  color: white;
+  background: var(--green);
+  font-weight: 800;
+}
+
+.process-strip strong {
+  color: var(--navy);
+}
+
+.process-strip small {
+  color: var(--muted);
+}
+
+.simple-notice {
+  margin-top: 0;
+}
+
 .hero-copy h1 {
   max-width: 720px;
   margin: 0.25rem 0 0.8rem;
@@ -349,6 +457,185 @@ main {
   margin: 0 0 1.2rem;
   color: var(--navy-deep);
   font-size: 1.25rem;
+}
+
+.visual-wizard {
+  border-color: #cfe5df;
+}
+
+.panel {
+  animation: panelIn 240ms ease-out;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-intro {
+  margin-bottom: 1.1rem;
+}
+
+.panel-intro h3 {
+  margin-bottom: 0.25rem;
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+}
+
+.panel-intro p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+}
+
+.big-input input {
+  min-height: 60px;
+  border-radius: 16px;
+  font-size: 1.08rem;
+}
+
+.quick-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(260px, 1.2fr);
+  gap: 1rem;
+  align-items: end;
+}
+
+.quick-row.three {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: start;
+}
+
+.scene-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.visual-choice legend,
+.equipment-choice legend,
+.compact-choice legend {
+  font-size: 1rem;
+  color: var(--navy);
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.visual-tile,
+.equipment-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 0.55rem;
+  min-height: 116px;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  color: var(--navy);
+  background: linear-gradient(150deg, #fff, #f6fbf9);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(18, 59, 74, 0.06);
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.visual-tile:hover,
+.equipment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(18, 59, 74, 0.1);
+}
+
+.visual-tile input,
+.equipment-card input,
+.risk-pills input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tile-icon,
+.visual-tile span {
+  display: grid;
+  place-items: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 0.5rem;
+  border-radius: 14px;
+  color: white;
+  background: var(--navy);
+  font-weight: 800;
+}
+
+.visual-tile span,
+.visual-tile strong,
+.equipment-card svg,
+.equipment-card strong {
+  pointer-events: none;
+}
+
+.visual-tile.small {
+  min-height: 96px;
+}
+
+.visual-tile:has(input:checked),
+.equipment-card:has(input:checked),
+.risk-pills label:has(input:checked) {
+  border-color: #3eb88f;
+  background: linear-gradient(150deg, #e4f3ee, #ffffff);
+  box-shadow: 0 16px 35px rgba(62, 184, 143, 0.18);
+}
+
+.visual-tile:has(input:checked)::after,
+.equipment-card:has(input:checked)::after {
+  content: "OK";
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  padding: 0.15rem 0.42rem;
+  border-radius: 999px;
+  color: white;
+  background: var(--green);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.segmented.large label {
+  flex: 1 1 130px;
+  justify-content: center;
+  min-height: 58px;
+  font-weight: 800;
+}
+
+.risk-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.risk-pills label {
+  position: relative;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--navy);
+  background: #fff;
+  font-weight: 750;
+}
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.equipment-card svg {
+  width: 94px;
+  height: 72px;
+}
+
+.equipment-card.compact {
+  min-height: 74px;
 }
 
 .fields {
@@ -800,7 +1087,9 @@ footer p {
   }
 
   .checks.grid,
-  .three-columns {
+  .three-columns,
+  .quick-row.three,
+  .equipment-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -831,8 +1120,17 @@ footer p {
     display: none;
   }
 
-  .hero {
+  .hero,
+  .visual-hero {
     grid-template-columns: 1fr;
+  }
+
+  .hero-stage {
+    min-height: auto;
+  }
+
+  .process-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .principles {
@@ -852,8 +1150,13 @@ footer p {
 
   .two-columns,
   .three-columns,
+  .quick-row,
+  .quick-row.three,
+  .scene-row,
   .checks,
   .checks.grid,
+  .tile-grid,
+  .equipment-grid,
   .result-columns,
   .about {
     grid-template-columns: 1fr;
