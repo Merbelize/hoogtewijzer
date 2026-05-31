@@ -6,8 +6,8 @@
   "description": "Mobiele keuzehulp voor veilig werken op hoogte met AI-toelichting.",
   "scripts": {
     "start": "node --env-file-if-exists=.env server.mjs",
-    "test": "node --test",
-    "check": "node --check server.mjs && node --check public/app.js && node --check public/modules/engine.js && node --test"
+    "test": "node --test test/*.mjs",
+    "check": "node --check server.mjs && node --check app.js && node --check engine.js"
   },
   "engines": {
     "node": ">=20.10"
