@@ -1,12 +1,16 @@
 import { createServer } from "node:http";
 import { timingSafeEqual } from "node:crypto";
-import { readFile, stat } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import { dirname, extname, join, normalize, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { assessScenario, buildFallbackAdvice, scenarioForPrompt } from "./public/modules/engine.js";
+import { assessScenario, buildFallbackAdvice, scenarioForPrompt } from "./engine.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const publicDir = join(here, "public");
+const nestedPublicDir = join(here, "public");
+const flatPublicDir = here;
+const publicDir = await access(join(nestedPublicDir, "index.html"))
+  .then(() => nestedPublicDir)
+  .catch(() => flatPublicDir);
 const port = Number.parseInt(process.env.PORT || "4173", 10);
 const host = process.env.HOST || (process.env.RENDER ? "0.0.0.0" : "127.0.0.1");
 const model = process.env.OPENAI_MODEL || "gpt-5.4-mini";
@@ -23,6 +27,17 @@ const mimeTypes = {
   ".svg": "image/svg+xml",
   ".webmanifest": "application/manifest+json; charset=utf-8"
 };
+
+const flatAssetMap = new Map([
+  ["/app.js", "app.js"],
+  ["/styles.css", "styles.css"],
+  ["/sw.js", "sw.js"],
+  ["/manifest.webmanifest", "manifest.webmanifest"],
+  ["/assets/icon.svg", "icon.svg"],
+  ["/assets/icon-192.png", "icon-192.png"],
+  ["/assets/icon-512.png", "icon-512.png"],
+  ["/modules/engine.js", "engine.js"]
+]);
 
 const securityHeaders = {
   "Content-Security-Policy":
@@ -210,7 +225,11 @@ async function handleApi(request, response, pathname) {
 
 async function serveFile(response, pathname) {
   const requested = pathname === "/" ? "/index.html" : pathname;
-  const cleaned = normalize(decodeURIComponent(requested)).replace(/^(\.\.[/\\])+/, "");
+  const mappedRequest =
+    publicDir === flatPublicDir && flatAssetMap.has(requested)
+      ? `/${flatAssetMap.get(requested)}`
+      : requested;
+  const cleaned = normalize(decodeURIComponent(mappedRequest)).replace(/^(\.\.[/\\])+/, "");
   const filePath = join(publicDir, cleaned);
   if (!filePath.startsWith(`${publicDir}${sep}`) && filePath !== join(publicDir, "index.html")) {
     sendJson(response, 403, { error: "Niet toegestaan." });
