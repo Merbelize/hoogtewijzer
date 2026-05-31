@@ -5,10 +5,13 @@ import { createAppServer } from "../server.mjs";
 let server;
 let baseUrl;
 let originalApiKey;
+let originalAccessCode;
 
 before(async () => {
   originalApiKey = process.env.OPENAI_API_KEY;
+  originalAccessCode = process.env.AI_ACCESS_CODE;
   delete process.env.OPENAI_API_KEY;
+  delete process.env.AI_ACCESS_CODE;
   server = createAppServer();
   await new Promise((resolve, reject) => {
     server.once("error", reject);
@@ -22,6 +25,8 @@ after(async () => {
   await new Promise((resolve) => server.close(resolve));
   if (originalApiKey === undefined) delete process.env.OPENAI_API_KEY;
   else process.env.OPENAI_API_KEY = originalApiKey;
+  if (originalAccessCode === undefined) delete process.env.AI_ACCESS_CODE;
+  else process.env.AI_ACCESS_CODE = originalAccessCode;
 });
 
 test("de app en statusfunctie worden aangeboden", async () => {
@@ -60,8 +65,10 @@ test("AI-vraag gebruikt zonder sleutel een veilig basisadvies", async () => {
 
 test("AI-vraag gebruikt de Responses API wanneer een sleutel is ingesteld", async () => {
   const previousKey = process.env.OPENAI_API_KEY;
+  const previousCode = process.env.AI_ACCESS_CODE;
   const originalFetch = globalThis.fetch;
   process.env.OPENAI_API_KEY = "test-key";
+  delete process.env.AI_ACCESS_CODE;
   let requestBody;
 
   globalThis.fetch = async (input, init) => {
@@ -103,6 +110,8 @@ test("AI-vraag gebruikt de Responses API wanneer een sleutel is ingesteld", asyn
   } finally {
     if (previousKey === undefined) delete process.env.OPENAI_API_KEY;
     else process.env.OPENAI_API_KEY = previousKey;
+    if (previousCode === undefined) delete process.env.AI_ACCESS_CODE;
+    else process.env.AI_ACCESS_CODE = previousCode;
     globalThis.fetch = originalFetch;
   }
 });
