@@ -3,333 +3,318 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#123b4a">
-    <meta name="description" content="HoogteWijzer helpt medewerkers snel een veilige werkplek op hoogte kiezen.">
-    <title>HoogteWijzer | Snel veilig werken op hoogte</title>
+    <meta name="theme-color" content="#101c25">
+    <meta name="description" content="HoogteWijzer helpt medewerkers snel en visueel een veilige keuze maken voor werken op hoogte.">
+    <title>HoogteWijzer | Veilig werken op hoogte</title>
     <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/assets/icon-192.png">
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="stylesheet" href="/styles.css">
     <script type="module" src="/app.js"></script>
   </head>
-  <body>
+  <body class="cinema-app">
     <a class="skip-link" href="#keuzehulp">Ga naar de keuzehulp</a>
-    <header class="topbar">
-      <a class="brand" href="/" aria-label="HoogteWijzer startpagina">
-        <img src="/assets/icon.svg" alt="" width="44" height="44">
-        <span><strong>HoogteWijzer</strong><small>Snel veilig kiezen</small></span>
-      </a>
-      <div class="top-actions">
-        <button class="ghost compact" id="saved-toggle" type="button">Opgeslagen</button>
-        <button class="ghost compact install-button" id="install-button" type="button" hidden>Installeer app</button>
-      </div>
-    </header>
 
-    <main>
-      <section class="hero visual-hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">Voor de werkvloer</p>
-          <h1 id="hero-title">Kies snel je veilige werkplek</h1>
-          <p class="intro">
-            Beantwoord een paar korte vragen. De app laat visueel zien welke keuze
-            logisch is en geeft direct een kort, motiverend AI-advies.
-          </p>
-          <div class="hero-actions">
-            <a class="primary hero-button" href="#keuzehulp">Start keuzehulp</a>
-            <span class="micro-copy">Ongeveer 1 minuut</span>
-          </div>
-        </div>
-        <div class="hero-stage" aria-hidden="true">
-          <svg class="site-scene" viewBox="0 0 520 360">
+    <main class="cinema-shell" id="keuzehulp">
+      <div class="ambient-orb orb-a"></div>
+      <div class="ambient-orb orb-b"></div>
+
+      <section class="cinema-stage" aria-label="HoogteWijzer keuzehulp">
+        <aside class="cinema-rail" aria-label="Navigatie">
+          <a class="cinema-logo" href="/" aria-label="HoogteWijzer start">
+            <img src="/assets/icon.svg" alt="" width="38" height="38">
+          </a>
+          <nav class="rail-dots" aria-label="Stappen">
+            <button class="step active" type="button" data-go-step="1" aria-current="step"><span>1</span><em>Klus</em></button>
+            <button class="step" type="button" data-go-step="2"><span>2</span><em>Plek</em></button>
+            <button class="step" type="button" data-go-step="3"><span>3</span><em>Middel</em></button>
+            <button class="step" type="button" data-go-step="4"><span>4</span><em>Advies</em></button>
+          </nav>
+          <button class="rail-button" id="saved-toggle" type="button">Bewaard</button>
+          <button class="rail-button install-button" id="install-button" type="button" hidden>Install</button>
+        </aside>
+
+        <header class="cinema-top">
+          <a class="cinema-wordmark" href="/">
+            <strong>HoogteWijzer</strong>
+            <span>Veilig werken op hoogte</span>
+          </a>
+          <button class="cinema-reset" id="new-assessment" type="button">Nieuwe keuze</button>
+        </header>
+
+        <section class="cinema-visual" aria-hidden="true">
+          <div class="scene-number">/01</div>
+          <svg class="cinema-illustration" viewBox="0 0 860 600">
             <defs>
-              <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#e4f3ee"/>
-                <stop offset="100%" stop-color="#f8fbfa"/>
+              <linearGradient id="cinemaFloor" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#243844"/>
+                <stop offset="100%" stop-color="#101c25"/>
               </linearGradient>
+              <radialGradient id="cinemaGlow" cx="52%" cy="42%" r="55%">
+                <stop offset="0%" stop-color="#5ef1c3" stop-opacity=".44"/>
+                <stop offset="62%" stop-color="#2a6670" stop-opacity=".16"/>
+                <stop offset="100%" stop-color="#101c25" stop-opacity="0"/>
+              </radialGradient>
             </defs>
-            <rect x="0" y="0" width="520" height="360" rx="34" fill="url(#sky)"/>
-            <polygon points="52,286 460,286 500,330 24,330" fill="#dce7e4"/>
-            <polygon points="106,93 182,93 182,286 106,286" fill="#123b4a"/>
-            <polygon points="118,112 170,112 170,151 118,151" fill="#d7ece7"/>
-            <polygon points="118,168 170,168 170,207 118,207" fill="#d7ece7"/>
-            <g class="float-card card-ladder">
-              <rect x="306" y="88" width="96" height="150" rx="12" fill="#fff" opacity=".92"/>
-              <path d="M338 220l42-110M360 220l42-110" stroke="#a66300" stroke-width="8" stroke-linecap="round"/>
-              <path d="M344 170h42M352 146h42M360 123h42" stroke="#ffc857" stroke-width="6" stroke-linecap="round"/>
+            <rect width="860" height="600" rx="4" fill="#172832"/>
+            <rect width="860" height="600" fill="url(#cinemaGlow)"/>
+            <path class="grid-line" d="M70 480h720M120 420h620M185 365h500M260 315h350" />
+            <path class="grid-line thin" d="M260 315 92 480M360 315 282 480M500 315 575 480M610 315 766 480" />
+            <polygon points="108,480 752,480 822,560 42,560" fill="url(#cinemaFloor)"/>
+
+            <g class="lowpoly-building">
+              <polygon points="110,138 230,112 230,478 110,478" fill="#17424d"/>
+              <polygon points="230,112 288,146 288,478 230,478" fill="#12323c"/>
+              <rect x="132" y="170" width="28" height="48" rx="5" fill="#aaf1de"/>
+              <rect x="180" y="162" width="28" height="48" rx="5" fill="#d5fff2"/>
+              <rect x="132" y="246" width="28" height="48" rx="5" fill="#d5fff2"/>
+              <rect x="180" y="238" width="28" height="48" rx="5" fill="#aaf1de"/>
+              <rect x="132" y="322" width="28" height="48" rx="5" fill="#aaf1de"/>
+              <rect x="180" y="314" width="28" height="48" rx="5" fill="#d5fff2"/>
             </g>
-            <g class="worker worker-one">
-              <circle cx="247" cy="132" r="18" fill="#ffc857"/>
-              <polygon points="225,156 265,150 280,210 236,217" fill="#3eb88f"/>
-              <path d="M236 218l-18 52M268 212l25 50" stroke="#123b4a" stroke-width="12" stroke-linecap="round"/>
-              <path d="M228 164l-36 22M264 160l34 20" stroke="#123b4a" stroke-width="10" stroke-linecap="round"/>
+
+            <g class="cinema-worker">
+              <circle cx="420" cy="176" r="36" fill="#ffd36a"/>
+              <polygon points="374,222 438,200 488,320 404,345" fill="#48d7a2"/>
+              <polygon points="438,200 504,230 488,320" fill="#30a982"/>
+              <path d="M399 345l-64 112M470 326l60 114" stroke="#0d1822" stroke-width="28" stroke-linecap="round"/>
+              <path d="M381 239l-92 48M485 241l96 60" stroke="#0d1822" stroke-width="24" stroke-linecap="round"/>
+              <polygon points="389,344 424,354 355,470 320,460" fill="#102631"/>
+              <polygon points="459,333 494,318 554,432 520,450" fill="#102631"/>
             </g>
-            <g class="lift">
-              <rect x="292" y="250" width="112" height="32" rx="10" fill="#123b4a"/>
-              <circle cx="318" cy="289" r="13" fill="#092832"/>
-              <circle cx="378" cy="289" r="13" fill="#092832"/>
-              <path d="M326 250l-34-74h88l-32 74" fill="none" stroke="#3eb88f" stroke-width="9" stroke-linejoin="round"/>
-              <rect x="276" y="150" width="118" height="28" rx="8" fill="#ffc857"/>
+
+            <g class="cinema-lift">
+              <rect x="492" y="426" width="190" height="48" rx="16" fill="#0d1822"/>
+              <circle cx="538" cy="486" r="21" fill="#071019"/>
+              <circle cx="636" cy="486" r="21" fill="#071019"/>
+              <path d="M548 426 488 292h144l-48 134" fill="none" stroke="#48d7a2" stroke-width="18" stroke-linejoin="round"/>
+              <rect x="470" y="244" width="186" height="52" rx="14" fill="#ffd36a"/>
+              <path d="M486 244v-36M640 244v-36M486 208h154" stroke="#fff2be" stroke-width="10" stroke-linecap="round"/>
+            </g>
+
+            <g class="cinema-ladder">
+              <path d="M666 432 736 174M706 432 776 174" stroke="#ffc857" stroke-width="17" stroke-linecap="round"/>
+              <path d="M677 388h54M688 346h54M700 304h54M711 262h54M723 220h54" stroke="#fff3ca" stroke-width="10" stroke-linecap="round"/>
             </g>
           </svg>
-        </div>
-      </section>
-
-      <section class="process-strip" aria-label="Hoe werkt het">
-        <div><span>1</span><strong>Klus</strong><small>Wat ga je doen?</small></div>
-        <div><span>2</span><strong>Plek</strong><small>Waar zit het risico?</small></div>
-        <div><span>3</span><strong>Middel</strong><small>Wat is beschikbaar?</small></div>
-        <div><span>4</span><strong>Advies</strong><small>Start, regel of stop.</small></div>
-      </section>
-
-      <div class="notice simple-notice" role="note">
-        <strong>Kort en duidelijk:</strong> zegt de app “stop” of twijfel je? Overleg eerst met je leidinggevende.
-      </div>
-
-      <div class="layout">
-        <section class="wizard card visual-wizard" id="keuzehulp" aria-label="Nieuwe beoordeling">
-          <div class="card-head">
-            <div>
-              <p class="eyebrow">Sneladvies</p>
-              <h2>Maak je keuze</h2>
-            </div>
-            <button class="text-button" id="new-assessment" type="button">Opnieuw</button>
-          </div>
-
-          <nav class="steps visual-steps" aria-label="Stappen">
-            <button class="step active" type="button" data-go-step="1" aria-current="step"><span>1</span> Klus</button>
-            <button class="step" type="button" data-go-step="2"><span>2</span> Plek</button>
-            <button class="step" type="button" data-go-step="3"><span>3</span> Middel</button>
-            <button class="step" type="button" data-go-step="4"><span>4</span> Advies</button>
-          </nav>
-
-          <form id="assessment-form" novalidate>
-            <input type="hidden" name="location" value="">
-            <input type="hidden" name="assessmentDate" value="">
-            <input type="hidden" name="frequency" value="once">
-            <input type="hidden" name="responsibleRole" value="">
-            <input type="hidden" name="notes" value="">
-            <input type="hidden" name="supervision" value="unknown">
-            <input type="hidden" name="liftCompetence" value="unknown">
-            <input type="hidden" name="rescuePlan" value="notApplicable">
-
-            <section class="panel active" data-panel="1" aria-labelledby="panel-one-title">
-              <div class="panel-intro">
-                <p class="eyebrow">Stap 1</p>
-                <h3 id="panel-one-title" tabindex="-1">Wat ga je doen?</h3>
-                <p>Kies de klus. Houd het kort.</p>
-              </div>
-
-              <label class="field big-input">
-                <span>Klus</span>
-                <input name="taskName" type="text" maxlength="100" required placeholder="Bijv. lamp vervangen">
-              </label>
-
-              <fieldset class="choice-block visual-choice">
-                <legend>Soort werk</legend>
-                <div class="tile-grid work-grid">
-                  <label class="visual-tile"><input type="radio" name="workType" value="inspection"><span class="tile-icon">Kijk</span><strong>Inspectie</strong></label>
-                  <label class="visual-tile"><input type="radio" name="workType" value="maintenance" checked><span class="tile-icon">Fix</span><strong>Onderhoud</strong></label>
-                  <label class="visual-tile"><input type="radio" name="workType" value="installation"><span class="tile-icon">Maak</span><strong>Montage</strong></label>
-                  <label class="visual-tile"><input type="radio" name="workType" value="painting"><span class="tile-icon">Werk</span><strong>Afwerking</strong></label>
-                </div>
-              </fieldset>
-
-              <div class="quick-row">
-                <label class="field">
-                  <span>Valhoogte</span>
-                  <input name="fallHeight" type="number" inputmode="decimal" min="0" max="100" step="0.1" required placeholder="2,5">
-                </label>
-                <fieldset class="choice-block compact-choice">
-                  <legend>Duur</legend>
-                  <div class="segmented">
-                    <label><input type="radio" name="duration" value="brief"> Kort</label>
-                    <label><input type="radio" name="duration" value="short" checked> Normaal</label>
-                    <label><input type="radio" name="duration" value="halfDay"> Lang</label>
-                  </div>
-                </fieldset>
-              </div>
-            </section>
-
-            <section class="panel" data-panel="2" aria-labelledby="panel-two-title" hidden>
-              <div class="panel-intro">
-                <p class="eyebrow">Stap 2</p>
-                <h3 id="panel-two-title" tabindex="-1">Wat zie je op de plek?</h3>
-                <p>Kies alleen wat je zeker weet.</p>
-              </div>
-
-              <div class="scene-row">
-                <fieldset class="choice-block visual-choice">
-                  <legend>Kan het vanaf de grond?</legend>
-                  <div class="segmented large">
-                    <label><input type="radio" name="avoidHeight" value="yes"> Ja</label>
-                    <label><input type="radio" name="avoidHeight" value="no"> Nee</label>
-                    <label><input type="radio" name="avoidHeight" value="unknown" checked> Weet ik niet</label>
-                  </div>
-                </fieldset>
-                <fieldset class="choice-block visual-choice">
-                  <legend>Is er al een veilige werkplek?</legend>
-                  <div class="segmented large">
-                    <label><input type="radio" name="protectedPlatform" value="yes"> Ja, met leuning</label>
-                    <label><input type="radio" name="protectedPlatform" value="no" checked> Nee</label>
-                    <label><input type="radio" name="protectedPlatform" value="unknown"> Weet ik niet</label>
-                  </div>
-                </fieldset>
-              </div>
-
-              <fieldset class="choice-block visual-choice">
-                <legend>Wat maakt de klus lastiger?</legend>
-                <div class="tile-grid">
-                  <label class="visual-tile small"><input type="checkbox" name="twoHands"><span>2x</span><strong>Twee handen</strong></label>
-                  <label class="visual-tile small"><input type="checkbox" name="forceRequired"><span>!</span><strong>Kracht/reiken</strong></label>
-                  <label class="visual-tile small"><input type="checkbox" name="heavyMaterials"><span>Kg</span><strong>Zwaar materiaal</strong></label>
-                  <label class="visual-tile small"><input type="checkbox" name="moveOften"><span>&lt;&gt;</span><strong>Veel verplaatsen</strong></label>
-                </div>
-              </fieldset>
-
-              <fieldset class="choice-block visual-choice">
-                <legend>Extra gevaar in de buurt?</legend>
-                <div class="risk-pills">
-                  <label><input type="checkbox" name="hazards" value="openings"> Gat/opening</label>
-                  <label><input type="checkbox" name="hazards" value="fragileRoof"> Breekbaar dak</label>
-                  <label><input type="checkbox" name="hazards" value="traffic"> Verkeer</label>
-                  <label><input type="checkbox" name="hazards" value="water"> Water</label>
-                  <label><input type="checkbox" name="hazards" value="machinery"> Machines</label>
-                  <label><input type="checkbox" name="hazards" value="electricity"> Elektra</label>
-                </div>
-              </fieldset>
-
-              <div class="quick-row three">
-                <label class="field"><span>Ondergrond</span><select name="surface"><option value="unknown">Weet ik niet</option><option value="stable">Stabiel</option><option value="unstable">Niet stabiel</option></select></label>
-                <label class="field"><span>Ruimte</span><select name="space"><option value="unknown">Weet ik niet</option><option value="ample">Genoeg</option><option value="limited">Beperkt</option><option value="none">Geen</option></select></label>
-                <label class="field"><span>Weer/wind</span><select name="weather"><option value="notApplicable">Binnen/n.v.t.</option><option value="safe">Veilig</option><option value="unsafe">Onveilig</option></select></label>
-                <label class="field"><span>Verkeer afgeschermd?</span><select name="segregated"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
-                <label class="field"><span>Elektra veilig?</span><select name="electricalControl"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
-              </div>
-            </section>
-
-            <section class="panel" data-panel="3" aria-labelledby="panel-three-title" hidden>
-              <div class="panel-intro">
-                <p class="eyebrow">Stap 3</p>
-                <h3 id="panel-three-title" tabindex="-1">Wat kun je gebruiken?</h3>
-                <p>Kies wat echt beschikbaar is. De app adviseert veilig.</p>
-              </div>
-
-              <fieldset class="choice-block equipment-choice">
-                <legend>Arbeidsmiddel</legend>
-                <div class="equipment-grid">
-                  <label class="equipment-card"><input type="checkbox" name="equipment" value="ladder"><svg viewBox="0 0 120 90"><path d="M43 78 70 14M66 78 93 14" stroke="#a66300" stroke-width="7" stroke-linecap="round"/><path d="M50 60h27M57 43h27M64 27h27" stroke="#ffc857" stroke-width="5" stroke-linecap="round"/></svg><strong>Ladder</strong></label>
-                  <label class="equipment-card"><input type="checkbox" name="equipment" value="rollingScaffold"><svg viewBox="0 0 120 90"><rect x="28" y="18" width="64" height="12" rx="4" fill="#ffc857"/><path d="M34 30v42M86 30v42M34 46h52M34 62h52" stroke="#123b4a" stroke-width="6"/><circle cx="35" cy="76" r="5" fill="#092832"/><circle cx="86" cy="76" r="5" fill="#092832"/></svg><strong>Rolsteiger</strong></label>
-                  <label class="equipment-card"><input type="checkbox" name="equipment" value="scaffold"><svg viewBox="0 0 120 90"><rect x="18" y="20" width="84" height="12" rx="4" fill="#ffc857"/><path d="M24 32v44M60 32v44M96 32v44M24 48h72M24 64h72" stroke="#123b4a" stroke-width="6"/></svg><strong>Steiger</strong></label>
-                  <label class="equipment-card"><input type="checkbox" name="equipment" value="boomLift"><svg viewBox="0 0 120 90"><rect x="58" y="58" width="42" height="14" rx="5" fill="#123b4a"/><circle cx="68" cy="76" r="5" fill="#092832"/><circle cx="91" cy="76" r="5" fill="#092832"/><path d="M70 58 44 33h42" fill="none" stroke="#3eb88f" stroke-width="7" stroke-linejoin="round"/><rect x="35" y="24" width="48" height="13" rx="4" fill="#ffc857"/></svg><strong>Hoogwerker</strong></label>
-                  <label class="equipment-card"><input type="checkbox" name="equipment" value="permanentPlatform"><svg viewBox="0 0 120 90"><rect x="22" y="30" width="76" height="12" rx="4" fill="#ffc857"/><path d="M28 30V18M50 30V18M72 30V18M94 30V18M22 18h76M30 42v32h60V42" stroke="#123b4a" stroke-width="6" fill="none"/></svg><strong>Bordes</strong></label>
-                  <label class="equipment-card"><input type="checkbox" name="equipment" value="podiumStep"><svg viewBox="0 0 120 90"><rect x="33" y="24" width="48" height="12" rx="4" fill="#ffc857"/><path d="M40 36 25 75M75 36l20 39M37 52h45M31 64h58" stroke="#123b4a" stroke-width="6" stroke-linecap="round"/></svg><strong>Bordestrap</strong></label>
-                  <label class="equipment-card compact"><input type="checkbox" name="equipment" value="scissorLift"><strong>Schaarhoogwerker</strong></label>
-                  <label class="equipment-card compact"><input type="checkbox" name="equipment" value="edgeProtection"><strong>Randbeveiliging</strong></label>
-                  <label class="equipment-card compact"><input type="checkbox" name="equipment" value="fallProtection"><strong>Valbeveiliging</strong></label>
-                </div>
-              </fieldset>
-
-              <div class="quick-row">
-                <label class="field"><span>Middel gecontroleerd?</span><select name="inspectionStatus"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
-                <label class="field"><span>Jij instructie gehad?</span><select name="generalCompetence"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
-              </div>
-            </section>
-
-            <section class="panel result-panel" data-panel="4" aria-labelledby="result-title" hidden>
-              <div class="result-empty" id="result-empty">
-                <h3 id="result-title" tabindex="-1">Advies</h3>
-                <p>Vul de stappen in en kies <strong>Maak advies</strong>.</p>
-              </div>
-              <div id="result" hidden aria-live="polite">
-                <div class="result-header">
-                  <span class="badge" id="risk-badge"></span>
-                  <p class="result-task" id="result-task"></p>
-                  <h3 id="recommendation" tabindex="-1"></h3>
-                  <p class="result-explanation" id="result-explanation"></p>
-                </div>
-                <section class="stop-box" id="stop-box" hidden>
-                  <h4>Stop eerst. Los dit op:</h4>
-                  <ul id="stop-list"></ul>
-                </section>
-                <div class="result-columns">
-                  <section><h4>Waarom?</h4><ul id="reason-list"></ul></section>
-                  <section><h4>Regel dit</h4><ul id="measure-list"></ul></section>
-                  <section><h4>Check</h4><ul id="check-list"></ul></section>
-                  <section><h4>Niet zomaar kiezen</h4><ul id="reject-list"></ul></section>
-                </div>
-
-                <section class="ai-card" aria-labelledby="ai-title">
-                  <div class="ai-heading">
-                    <div>
-                      <p class="eyebrow">AI-advies</p>
-                      <h4 id="ai-title">Laat AI het kort uitleggen</h4>
-                    </div>
-                    <span class="ai-status" id="ai-status">AI controleren...</span>
-                  </div>
-                  <p class="help">AI maakt het advies kort en praktisch. Vul geen persoonsgegevens in.</p>
-                  <label class="field">
-                    <span>Wat wil je weten?</span>
-                    <textarea id="ai-question" rows="2" maxlength="800">Leg kort uit wat ik nu moet doen en waarom.</textarea>
-                  </label>
-                  <label class="field ai-access" id="ai-access" hidden>
-                    <span>Toegangscode voor AI</span>
-                    <input id="ai-access-code" type="password" autocomplete="one-time-code" maxlength="100" placeholder="Vul de gedeelde code in">
-                    <small>Deze code voorkomt ongewenst gebruik van het AI-budget.</small>
-                  </label>
-                  <button class="primary" id="ask-ai" type="button">Leg kort uit</button>
-                  <div class="ai-answer" id="ai-answer" hidden aria-live="polite"></div>
-                </section>
-
-                <p class="disclaimer" id="disclaimer"></p>
-                <div class="report-actions">
-                  <button class="primary" id="save-report" type="button">Bewaar</button>
-                  <button class="secondary" id="download-report" type="button">Download</button>
-                  <button class="secondary" id="print-report" type="button">PDF</button>
-                  <button class="secondary" id="share-report" type="button">Deel</button>
-                </div>
-              </div>
-            </section>
-
-            <div class="form-actions" id="form-actions">
-              <button class="secondary" type="button" id="previous-step" hidden>Vorige</button>
-              <button class="primary" type="button" id="next-step">Volgende</button>
-              <button class="primary" type="submit" id="generate" hidden>Maak advies</button>
-            </div>
-          </form>
         </section>
 
-        <aside class="saved card" id="saved-panel" hidden aria-labelledby="saved-title">
-          <div class="card-head">
-            <div>
-              <p class="eyebrow">Op dit apparaat</p>
-              <h2 id="saved-title" tabindex="-1">Bewaard</h2>
-            </div>
-            <button class="text-button" id="saved-close" type="button">Sluiten</button>
-          </div>
-          <p class="help">Alleen opgeslagen in deze browser.</p>
-          <div class="saved-list" id="saved-list"></div>
-        </aside>
-      </div>
+        <form id="assessment-form" class="cinema-form" novalidate>
+          <input type="hidden" name="location" value="">
+          <input type="hidden" name="assessmentDate" value="">
+          <input type="hidden" name="frequency" value="once">
+          <input type="hidden" name="responsibleRole" value="">
+          <input type="hidden" name="notes" value="">
+          <input type="hidden" name="supervision" value="unknown">
+          <input type="hidden" name="liftCompetence" value="unknown">
+          <input type="hidden" name="rescuePlan" value="notApplicable">
 
-      <section class="about card" aria-labelledby="about-title">
-        <div>
-          <p class="eyebrow">Waarom zo?</p>
-          <h2 id="about-title">Kort, visueel en uitlegbaar</h2>
-        </div>
-        <p>
-          De app houdt de veilige volgorde vast: voorkom hoogtewerk, kies een
-          veilige werkplek, gebruik een passend middel en check voor je start.
-        </p>
-        <div class="sources">
-          <a href="https://www.arboportaal.nl/onderwerpen/inrichting-werkvloer/werken-op-hoogte" target="_blank" rel="noreferrer">Arboportaal</a>
-          <a href="https://www.nlarbeidsinspectie.nl/onderwerpen/arbeidsomstandighedenwet/rolsteigers" target="_blank" rel="noreferrer">Arbeidsinspectie</a>
-        </div>
+          <section class="panel active cinema-panel intro-panel" data-panel="1" aria-labelledby="panel-one-title">
+            <p class="cinema-kicker">Start veilig</p>
+            <h1 id="panel-one-title" tabindex="-1">Kies je veilige werkplek.</h1>
+            <p class="cinema-text">Vul alleen in wat nodig is. De app vertaalt het naar een kort advies.</p>
+
+            <label class="cinema-field">
+              <span>Klus</span>
+              <input name="taskName" type="text" maxlength="100" required placeholder="Bijv. lamp vervangen">
+            </label>
+
+            <div class="cinema-grid">
+              <label class="cinema-field">
+                <span>Valhoogte</span>
+                <input name="fallHeight" type="number" inputmode="decimal" min="0" max="100" step="0.1" required placeholder="2,5">
+              </label>
+              <fieldset class="cinema-field">
+                <legend>Duur</legend>
+                <div class="cinema-choice-row">
+                  <label><input type="radio" name="duration" value="brief"> Kort</label>
+                  <label><input type="radio" name="duration" value="short" checked> Normaal</label>
+                  <label><input type="radio" name="duration" value="halfDay"> Lang</label>
+                </div>
+              </fieldset>
+            </div>
+
+            <fieldset class="cinema-field">
+              <legend>Soort werk</legend>
+              <div class="cinema-cards">
+                <label><input type="radio" name="workType" value="inspection"><strong>Kijken</strong><span>Inspectie</span></label>
+                <label><input type="radio" name="workType" value="maintenance" checked><strong>Repareren</strong><span>Onderhoud</span></label>
+                <label><input type="radio" name="workType" value="installation"><strong>Maken</strong><span>Montage</span></label>
+                <label><input type="radio" name="workType" value="painting"><strong>Afwerken</strong><span>Schilderen</span></label>
+              </div>
+            </fieldset>
+          </section>
+
+          <section class="panel cinema-panel" data-panel="2" aria-labelledby="panel-two-title" hidden>
+            <p class="cinema-kicker">Scan de plek</p>
+            <h2 id="panel-two-title" tabindex="-1">Wat maakt het werk spannend?</h2>
+            <p class="cinema-text">Zie je gevaar? Dan is dat geen gedoe, maar een reden om het eerst goed te regelen.</p>
+
+            <div class="cinema-grid">
+              <fieldset class="cinema-field">
+                <legend>Kan het vanaf de grond?</legend>
+                <div class="cinema-choice-row">
+                  <label><input type="radio" name="avoidHeight" value="yes"> Ja</label>
+                  <label><input type="radio" name="avoidHeight" value="no"> Nee</label>
+                  <label><input type="radio" name="avoidHeight" value="unknown" checked> Weet ik niet</label>
+                </div>
+              </fieldset>
+              <fieldset class="cinema-field">
+                <legend>Werkplek met leuning?</legend>
+                <div class="cinema-choice-row">
+                  <label><input type="radio" name="protectedPlatform" value="yes"> Ja</label>
+                  <label><input type="radio" name="protectedPlatform" value="no" checked> Nee</label>
+                  <label><input type="radio" name="protectedPlatform" value="unknown"> Weet ik niet</label>
+                </div>
+              </fieldset>
+            </div>
+
+            <fieldset class="cinema-field">
+              <legend>Taak vraagt extra aandacht</legend>
+              <div class="cinema-pills">
+                <label><input type="checkbox" name="twoHands"> Twee handen</label>
+                <label><input type="checkbox" name="forceRequired"> Kracht/reiken</label>
+                <label><input type="checkbox" name="heavyMaterials"> Zwaar materiaal</label>
+                <label><input type="checkbox" name="moveOften"> Vaak verplaatsen</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="cinema-field">
+              <legend>Direct gevaar</legend>
+              <div class="cinema-pills">
+                <label><input type="checkbox" name="hazards" value="openings"> Gat/opening</label>
+                <label><input type="checkbox" name="hazards" value="fragileRoof"> Breekbaar dak</label>
+                <label><input type="checkbox" name="hazards" value="traffic"> Verkeer</label>
+                <label><input type="checkbox" name="hazards" value="water"> Water</label>
+                <label><input type="checkbox" name="hazards" value="machinery"> Machines</label>
+                <label><input type="checkbox" name="hazards" value="electricity"> Elektra</label>
+              </div>
+            </fieldset>
+
+            <div class="cinema-grid compact">
+              <label class="cinema-field"><span>Ondergrond</span><select name="surface"><option value="unknown">Weet ik niet</option><option value="stable">Stabiel</option><option value="unstable">Niet stabiel</option></select></label>
+              <label class="cinema-field"><span>Ruimte</span><select name="space"><option value="unknown">Weet ik niet</option><option value="ample">Genoeg</option><option value="limited">Beperkt</option><option value="none">Geen</option></select></label>
+              <label class="cinema-field"><span>Weer</span><select name="weather"><option value="notApplicable">Binnen/n.v.t.</option><option value="safe">Goed</option><option value="unsafe">Onveilig</option></select></label>
+              <label class="cinema-field"><span>Verkeer vrij?</span><select name="segregated"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
+              <label class="cinema-field"><span>Elektra veilig?</span><select name="electricalControl"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
+            </div>
+          </section>
+
+          <section class="panel cinema-panel" data-panel="3" aria-labelledby="panel-three-title" hidden>
+            <p class="cinema-kicker">Kies het middel</p>
+            <h2 id="panel-three-title" tabindex="-1">Wat staat er echt klaar?</h2>
+            <p class="cinema-text">De app kiest niet automatisch de makkelijkste optie, maar de veilige optie.</p>
+
+            <fieldset class="cinema-field">
+              <legend>Beschikbaar arbeidsmiddel</legend>
+              <div class="equipment-grid cinema-equipment">
+                <label><input type="checkbox" name="equipment" value="ladder"><span>Ladder</span></label>
+                <label><input type="checkbox" name="equipment" value="podiumStep"><span>Bordestrap</span></label>
+                <label><input type="checkbox" name="equipment" value="rollingScaffold"><span>Rolsteiger</span></label>
+                <label><input type="checkbox" name="equipment" value="scaffold"><span>Steiger</span></label>
+                <label><input type="checkbox" name="equipment" value="boomLift"><span>Hoogwerker</span></label>
+                <label><input type="checkbox" name="equipment" value="scissorLift"><span>Schaarhoogwerker</span></label>
+                <label><input type="checkbox" name="equipment" value="permanentPlatform"><span>Bordes</span></label>
+                <label><input type="checkbox" name="equipment" value="edgeProtection"><span>Randbeveiliging</span></label>
+                <label><input type="checkbox" name="equipment" value="fallProtection"><span>Valbeveiliging</span></label>
+              </div>
+            </fieldset>
+
+            <div class="cinema-grid">
+              <label class="cinema-field"><span>Goedgekeurd?</span><select name="inspectionStatus"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
+              <label class="cinema-field"><span>Instructie gehad?</span><select name="generalCompetence"><option value="unknown">Weet ik niet</option><option value="yes">Ja</option><option value="no">Nee</option></select></label>
+            </div>
+          </section>
+
+          <section class="panel cinema-panel result-panel" data-panel="4" aria-labelledby="result-title" hidden>
+            <div class="result-empty" id="result-empty">
+              <p class="cinema-kicker">Advies</p>
+              <h2 id="result-title" tabindex="-1">Klaar voor advies.</h2>
+              <p class="cinema-text">Vul de stappen in en kies <strong>Maak advies</strong>.</p>
+            </div>
+
+            <div id="result" hidden aria-live="polite">
+              <div class="result-header cinema-result">
+                <span class="badge" id="risk-badge"></span>
+                <p class="result-task" id="result-task"></p>
+                <h3 id="recommendation" tabindex="-1"></h3>
+                <p class="result-explanation" id="result-explanation"></p>
+              </div>
+
+              <section class="stop-box" id="stop-box" hidden>
+                <h4>Stop eerst. Los dit op:</h4>
+                <ul id="stop-list"></ul>
+              </section>
+
+              <div class="result-columns cinema-result-grid">
+                <section><h4>Waarom?</h4><ul id="reason-list"></ul></section>
+                <section><h4>Regel dit</h4><ul id="measure-list"></ul></section>
+                <section><h4>Check</h4><ul id="check-list"></ul></section>
+                <section><h4>Niet zomaar kiezen</h4><ul id="reject-list"></ul></section>
+              </div>
+
+              <section class="ai-card cinema-ai" aria-labelledby="ai-title">
+                <div class="ai-heading">
+                  <div>
+                    <p class="eyebrow">AI-advies</p>
+                    <h4 id="ai-title">Maak het menselijk en kort</h4>
+                  </div>
+                  <span class="ai-status" id="ai-status">AI controleren...</span>
+                </div>
+                <p class="help">AI legt het advies praktisch uit. Vul geen persoonsgegevens in.</p>
+                <label class="cinema-field">
+                  <span>Vraag aan AI</span>
+                  <textarea id="ai-question" rows="2" maxlength="800">Leg kort uit wat ik nu moet doen en waarom.</textarea>
+                </label>
+                <label class="cinema-field ai-access" id="ai-access" hidden>
+                  <span>Toegangscode voor AI</span>
+                  <input id="ai-access-code" type="password" autocomplete="one-time-code" maxlength="100" placeholder="Vul de gedeelde code in">
+                  <small>Deze code voorkomt ongewenst gebruik van het AI-budget.</small>
+                </label>
+                <button class="primary" id="ask-ai" type="button">Leg kort uit</button>
+                <div class="ai-answer" id="ai-answer" hidden aria-live="polite"></div>
+              </section>
+
+              <p class="disclaimer" id="disclaimer"></p>
+              <div class="report-actions cinema-report-actions">
+                <button class="primary" id="save-report" type="button">Bewaar</button>
+                <button class="secondary" id="download-report" type="button">Download</button>
+                <button class="secondary" id="print-report" type="button">PDF</button>
+                <button class="secondary" id="share-report" type="button">Deel</button>
+              </div>
+            </div>
+          </section>
+
+          <div class="form-actions cinema-actions" id="form-actions">
+            <button class="secondary" type="button" id="previous-step" hidden>Terug</button>
+            <button class="primary" type="button" id="next-step">Volgende</button>
+            <button class="primary" type="submit" id="generate" hidden>Maak advies</button>
+          </div>
+        </form>
+
+        <aside class="cinema-info" aria-label="Belangrijk">
+          <p>Twijfel is ook informatie.</p>
+          <strong>Stop bij onduidelijkheid.</strong>
+          <span>Regel hulp, afscherming of een veiliger middel.</span>
+        </aside>
       </section>
+
+      <aside class="saved cinema-saved" id="saved-panel" hidden aria-labelledby="saved-title">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Op dit apparaat</p>
+            <h2 id="saved-title" tabindex="-1">Bewaard</h2>
+          </div>
+          <button class="text-button" id="saved-close" type="button">Sluiten</button>
+        </div>
+        <p class="help">Alleen opgeslagen in deze browser.</p>
+        <div class="saved-list" id="saved-list"></div>
+      </aside>
     </main>
 
-    <footer>
+    <footer class="cinema-footer">
       <p><strong>HoogteWijzer</strong> | Hulpmiddel voor veilig werken op hoogte</p>
-      <p>Stop bij twijfel en overleg met je leidinggevende of veiligheidskundige.</p>
+      <p>De leidinggevende en veiligheidskundige blijven verantwoordelijk voor de juiste werkwijze.</p>
     </footer>
     <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   </body>

@@ -3,7 +3,7 @@ import { assessScenario, emptyScenario, buildFallbackAdvice } from "/modules/eng
 const form = document.querySelector("#assessment-form");
 const panels = [...document.querySelectorAll("[data-panel]")];
 const stepButtons = [...document.querySelectorAll("[data-go-step]")];
-const layout = document.querySelector(".layout");
+const layout = document.querySelector(".layout") || document.querySelector(".story-main") || document.querySelector(".cinema-shell");
 const savedPanel = document.querySelector("#saved-panel");
 const savedList = document.querySelector("#saved-list");
 const previousButton = document.querySelector("#previous-step");
@@ -105,6 +105,9 @@ function writeReports(reports) {
 
 function showStep(step, focusHeading = false) {
   currentStep = Math.max(1, Math.min(4, Number(step)));
+  document.body.dataset.step = String(currentStep);
+  const sceneNumber = document.querySelector(".scene-number");
+  if (sceneNumber) sceneNumber.textContent = `/${String(currentStep).padStart(2, "0")}`;
   panels.forEach((panel) => {
     const active = Number(panel.dataset.panel) === currentStep;
     panel.hidden = !active;
@@ -122,7 +125,7 @@ function showStep(step, focusHeading = false) {
   generateButton.hidden = currentStep !== 3;
   document.querySelector("#form-actions").hidden = currentStep === 4;
   if (focusHeading) {
-    panels[currentStep - 1].querySelector("h3")?.focus();
+    panels[currentStep - 1].querySelector("h1, h2, h3")?.focus();
   }
 }
 
